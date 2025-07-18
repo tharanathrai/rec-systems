@@ -133,4 +133,10 @@ features = ['cast', 'keywords', 'director', 'genres']
 for feature in features:
     metadata[feature] = metadata[feature].apply(clean_data)
 
-print(metadata[['title', 'cast', 'director', 'keywords', 'genres']].head(3))
+def create_soup(x):
+    return ' '.join(x['keywords']) + ' ' + ' '.join(x['cast']) + ' ' + x['director'] + ' ' + ' '.join(x['genres'])
+
+# Create a new soup feature
+metadata['soup'] = metadata.apply(create_soup, axis=1)
+
+print(metadata['soup'].head())
