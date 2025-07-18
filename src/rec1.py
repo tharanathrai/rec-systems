@@ -139,4 +139,19 @@ def create_soup(x):
 # Create a new soup feature
 metadata['soup'] = metadata.apply(create_soup, axis=1)
 
-print(metadata['soup'].head())
+# Import CountVectorizer and create the count matrix
+from sklearn.feature_extraction.text import CountVectorizer
+
+count = CountVectorizer(stop_words='english', max_features=10000)
+count_matrix = count.fit_transform(metadata['soup'])
+
+# Compute the Cosine Similarity matrix based on the count_matrix
+from sklearn.metrics.pairwise import cosine_similarity
+
+cosine_sim2 = cosine_similarity(count_matrix, count_matrix)
+
+# Reset index of your main DataFrame and construct reverse mapping as before
+metadata = metadata.reset_index()
+indices = pd.Series(metadata.index, index=metadata['title'])
+
+similarContent('The Son of No One', cosine_sim2)
