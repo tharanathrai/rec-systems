@@ -119,4 +119,18 @@ features = ['cast', 'keywords', 'genres']
 for feature in features:
     metadata[feature] = metadata[feature].apply(get_top_3)
 
+def clean_data(x):
+    if isinstance(x, list):
+        return [ str.lower(i.replace(" ", "")) for i in x]
+    else:
+        if isinstance(x, str):
+            return str.lower(x.replace(" ", ""))
+        else:
+            return ''
+
+features = ['cast', 'keywords', 'director', 'genres']
+
+for feature in features:
+    metadata[feature] = metadata[feature].apply(clean_data)
+
 print(metadata[['title', 'cast', 'director', 'keywords', 'genres']].head(3))
